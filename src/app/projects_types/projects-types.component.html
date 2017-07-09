@@ -1,0 +1,21 @@
+<h3>Liste des types des projets</h3>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Titre</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let t of types">
+            <td>{{t.id}}</td>
+            <td>{{t.title}}</td>
+            <td>
+                <a href="#">Modifier</a><br>
+                <a href="#">Supprimer</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

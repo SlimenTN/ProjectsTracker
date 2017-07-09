@@ -1,0 +1,22 @@
+<h3>Liste des clients</h3>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Denomination</th>
+            <th>Activité</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let c of clients">
+            <td>{{c.id}}</td>
+            <td>{{c.denomination}}</td>
+            <td>{{c.activity}}</td>
+            <td>
+                <a href="#">Modifier</a><br>
+                <a href="#">Supprimer</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

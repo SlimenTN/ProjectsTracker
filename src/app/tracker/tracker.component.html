@@ -1,0 +1,27 @@
+<h3>Traqueur des projets</h3>
+
+<table class="table table-bordered table-hover table-responsive">
+    <thead>
+        <tr>
+            <th>Projet</th>
+            <th>Jour</th>
+            <th>Temps (Heure)</th>
+            <th>Type d'intervention</th>
+            <th>Description</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let i of list">
+            <td>{{i.project}}</td>
+            <td>{{i.day}}</td>
+            <td class="text-center">{{i.time}}</td>
+            <td>{{i.typeIntervention}}</td>
+            <td>{{i.description}}</td>
+            <td>
+                <a href="#">Modifier</a><br>
+                <a href="#">Supprimer</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
