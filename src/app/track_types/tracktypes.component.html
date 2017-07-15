@@ -1,0 +1,23 @@
+<h3>Liste des types des interventions</h3>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th width="5%">ID</th>
+            <th width="20%">Title</th>
+            <th width="5%">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngIf="isLoading">
+           <td colspan="3">Loading types...</td>         
+        </tr>
+        <tr *ngFor="let t of types">
+            <td class="text-center">{{t.id}}</td>
+            <td>{{t.title}}</td>
+            <td>
+                <a href="#">Modifier</a><br>
+                <a href="#">Supprimer</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

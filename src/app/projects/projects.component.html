@@ -5,14 +5,21 @@
             <th>ID</th>
             <th>Titre</th>
             <th>Description</th>
+            <th>Date</th>
+            <th>Type</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
+        <tr *ngIf="isLoading">
+           <td colspan="6">Loading projects...</td>         
+        </tr>
         <tr *ngFor="let p of projects">
             <td>{{p.id}}</td>
             <td>{{p.title}}</td>
             <td>{{p.description}}</td>
+            <td>{{p.creationDate.date | date:'d/MM/y'}}</td>
+            <td>{{p.type.title}}</td>
             <td>
                 <a href="#">Modifier</a><br>
                 <a href="#">Supprimer</a>

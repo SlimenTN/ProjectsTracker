@@ -1,0 +1,41 @@
+<h3>{{title}}</h3>
+<form [formGroup]="form" (ngSubmit)="createClient()">
+    <div class="form-group">
+        <label for="denomination">Dénomination</label>
+        <input id="denomination" type="text" class="form-control" formControlName="denomination">
+        <div *ngIf="form.controls.denomination.touched && form.controls.denomination.errors">
+            <div 
+                *ngIf="form.controls.denomination.errors.required"
+                class="alert alert-danger">
+                Dénomination est obligatoire.
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="activity">Activité</label>
+        <input id="activity" type="text" class="form-control" formControlName="activity">
+        <div *ngIf="form.controls.activity.touched && form.controls.activity.errors">
+            <div 
+                *ngIf="form.controls.activity.errors.required"
+                class="alert alert-danger">
+                Activité est obligatoire.
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="phone">Tél</label>
+        <input id="phone" type="text" class="form-control" formControlName="phone">
+        <div *ngIf="form.controls.phone.touched && form.controls.phone.errors">
+            <div 
+                *ngIf="form.controls.phone.errors.required"
+                class="alert alert-danger">
+                Téléphone est obligatoire.
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="address">Adresse</label>
+        <input id="address" type="text" class="form-control" formControlName="address">
+    </div>
+    <button #btnSubmit type="submit" class="btn btn-success" [disabled]="!form.valid">Save</button>
+</form>

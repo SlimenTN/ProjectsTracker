@@ -9,9 +9,14 @@ import { ProjectsTypesService } from './projects-types.service';
 
 export class ProjectsTypesComponent implements OnInit {
     types: any[] = [];
+    isLoading = false;
     constructor(private _service: ProjectsTypesService) { }
 
     ngOnInit() { 
-        this.types = this._service.findAll();
+        this.isLoading = true;
+        this._service.findAll().subscribe(types => {
+            this.isLoading = false;
+            this.types = types;
+        });
     }    
 }

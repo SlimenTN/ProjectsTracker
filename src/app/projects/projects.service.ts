@@ -1,34 +1,17 @@
 import { Injectable } from '@angular/core';
+import {Http} from '@angular/http';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import * as G from './../app.globals';
 
 @Injectable()
 export class ProjectsService {
+    private url = G.SERVER_API_URl_PREFIX+'/projects';
+
+    constructor(private _http: Http) {}
+
     findAll(){
-        return [
-            {
-                id: 1,
-                title: 'Site web green-duck.tn',
-                description: 'Site web pour notre client Green duck'
-            },
-            {
-                id: 2,
-                title: 'Site web stram.tn',
-                description: 'Site web pour notre STRAM'
-            },
-            {
-                id: 3,
-                title: 'Milano Dmcc',
-                description: 'Application web "Gestion commerciale" pour notre client Milano DMCC'
-            },
-            {
-                id: 4,
-                title: 'Site web somcas.tn',
-                description: 'Site web pour notre client SOAMCS'
-            },
-            {
-                id: 5,
-                title: 'Application SAV',
-                description: 'Application web de service après vente pour notre client SOAMCS'
-            },
-        ];
+        return this._http.get(this.url)
+                .map(res => res.json());
     }
 }

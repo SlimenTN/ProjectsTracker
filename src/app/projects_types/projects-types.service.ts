@@ -1,21 +1,17 @@
 import { Injectable } from '@angular/core';
+import {Http} from '@angular/http';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import * as G from './../app.globals';
 
 @Injectable()
 export class ProjectsTypesService {
+    private url = G.SERVER_API_URl_PREFIX+'/projects-types';
+
+    constructor(private _http: Http) {}
+
     findAll(){
-        return [
-            {
-                id: 1,
-                title: 'Site web'
-            },
-            {
-                id: 2,
-                title: 'Application web'
-            },
-            {
-                id: 3,
-                title: 'Application de bureau'
-            },
-        ];
+        return this._http.get(this.url)
+                .map(res => res.json());
     }
 }

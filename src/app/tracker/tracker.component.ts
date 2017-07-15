@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TrackerService } from './/tracker.service';
+import * as G from './../app.globals';
 
 @Component({
     selector: 'tracker',
@@ -13,6 +14,7 @@ export class TrackerComponent implements OnInit {
 
     ngOnInit() {
         this.list = this._service.findAll();
+        
     }
 
 }

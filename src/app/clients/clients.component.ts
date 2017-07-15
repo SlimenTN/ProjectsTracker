@@ -9,10 +9,15 @@ import { ClientsService } from './clients.service';
 
 export class ClientsComponent implements OnInit {
     clients: any[] = [];
+    isLoading = false;
     constructor(private _service: ClientsService) { }
 
     ngOnInit() { 
-        this.clients = this._service.findAll();
+        this.isLoading = true;
+        this._service.findAll().subscribe(clients => {
+                this.isLoading = false;
+                this.clients = clients;
+            });
     }
 
 }
