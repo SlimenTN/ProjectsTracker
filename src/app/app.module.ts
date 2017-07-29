@@ -13,11 +13,12 @@ import { TrackTypesComponent } from './track_types/tracktypes.component';
 import { ClientFormComponent } from './clients/form.component';
 
 import {appRoutes} from './routing';
+import {ProjectFormComponent} from "./projects/form.component";
 
 @NgModule({
   declarations: [
     AppComponent, ClientsComponent, NotFoundComponent, ProjectsComponent, ProjectsTypesComponent,
-    TrackerComponent, TrackTypesComponent, ClientFormComponent
+    TrackerComponent, TrackTypesComponent, ClientFormComponent, ProjectFormComponent
   ],
   imports: [
     BrowserModule,

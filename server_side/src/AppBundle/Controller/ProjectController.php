@@ -15,4 +15,6 @@ class ProjectController extends Controller
 
         return new AngularResponse($projects);
     }
+
+
 }

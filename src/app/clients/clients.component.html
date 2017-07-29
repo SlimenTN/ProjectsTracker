@@ -5,16 +5,16 @@
     <thead>
         <tr>
             <th width="5%">ID</th>
-            <th width="20%">Denomination</th>
+            <th width="15%">Denomination</th>
             <th width="20%">Activité</th>
             <th width="10%">Téléphone</th>
             <th width="40%">Adresse</th>
-            <th width="5%">Actions</th>
+            <th width="10%">Actions</th>
         </tr>
     </thead>
     <tbody>
         <tr *ngIf="isLoading">
-           <td colspan="6">Loading clients...</td>         
+           <td colspan="6">Loading clients...</td>
         </tr>
         <tr *ngFor="let c of clients">
             <td class="text-center">{{c.id}}</td>
@@ -23,8 +23,8 @@
             <td>{{c.phone}}</td>
             <td>{{c.address}}</td>
             <td>
-                <a class="btn btn-success" ><span class="glyphicon glyphicon-star" aria-hidden="true"></span></a>
-                <a class="btn btn-success" >Ajouter nouveau client</a>
+                <a class="btn btn-success" routerLink="/clients/{{c.id}}/modifier"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                <a class="btn btn-danger" (click)="deleteClient(c)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
             </td>
         </tr>
     </tbody>

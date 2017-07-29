@@ -1,4 +1,6 @@
 <h3>Liste des projets</h3>
+<a class="btn btn-success" routerLink="/projets/nouveau">Ajouter nouveau projet</a>
+<hr>
 <table class="table table-bordered table-hover">
     <thead>
         <tr>
@@ -12,7 +14,7 @@
     </thead>
     <tbody>
         <tr *ngIf="isLoading">
-           <td colspan="6">Loading projects...</td>         
+           <td colspan="6">Loading projects...</td>
         </tr>
         <tr *ngFor="let p of projects">
             <td>{{p.id}}</td>
@@ -21,8 +23,8 @@
             <td>{{p.creationDate.date | date:'d/MM/y'}}</td>
             <td>{{p.type.title}}</td>
             <td>
-                <a href="#">Modifier</a><br>
-                <a href="#">Supprimer</a>
+                <a class="btn btn-success"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
             </td>
         </tr>
     </tbody>
