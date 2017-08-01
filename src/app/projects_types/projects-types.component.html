@@ -1,5 +1,7 @@
 <h3>Liste des types des projets</h3>
-
+<a class="btn btn-success" routerLink="/types-projets/nouveau">Ajouter nouveau type</a>
+<hr>
+<div class="alert alert-danger" *ngIf="errorMsg != null" [innerHTML]="errorMsg"></div>
 <table class="table table-bordered table-hover">
     <thead>
         <tr>
@@ -10,14 +12,14 @@
     </thead>
     <tbody>
         <tr *ngIf="isLoading">
-           <td colspan="3">Loading types...</td>         
+           <td colspan="3">Loading types...</td>
         </tr>
         <tr *ngFor="let t of types">
             <td>{{t.id}}</td>
             <td>{{t.title}}</td>
             <td>
-                <a class="btn btn-success"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                <a class="btn btn-success" routerLink="/types-projets/{{t.id}}/modifier"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                <a class="btn btn-danger" (click)="deleteType(t)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
             </td>
         </tr>
     </tbody>

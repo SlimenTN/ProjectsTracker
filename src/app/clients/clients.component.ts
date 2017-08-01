@@ -17,6 +17,7 @@ export class ClientsComponent implements OnInit {
   ngOnInit() {
     this.loadClients();
   }
+
   loadClients() {
     this.isLoading = true;
     this._service.findAll().subscribe(clients => {

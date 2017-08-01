@@ -1,4 +1,7 @@
 <h3>Liste des types des interventions</h3>
+<a class="btn btn-success" routerLink="/types-interventions/nouveau">Ajouter nouveau type d'intervention</a>
+<hr>
+<div class="alert alert-danger" *ngIf="errorMsg != null" [innerHTML]="errorMsg"></div>
 <table class="table table-bordered table-hover">
     <thead>
         <tr>
@@ -9,14 +12,14 @@
     </thead>
     <tbody>
         <tr *ngIf="isLoading">
-           <td colspan="3">Loading types...</td>         
+           <td colspan="3">Loading types...</td>
         </tr>
         <tr *ngFor="let t of types">
             <td class="text-center">{{t.id}}</td>
             <td>{{t.title}}</td>
             <td>
-                <a class="btn btn-success"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                <a class="btn btn-success" routerLink="/types-interventions/{{t.id}}/modifier"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                <a class="btn btn-danger" (click)="deleteType(t)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
             </td>
         </tr>
     </tbody>

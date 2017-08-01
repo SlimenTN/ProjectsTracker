@@ -1,4 +1,3 @@
-
 import {Component, OnInit, ViewChild} from "@angular/core";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Params, Router} from "@angular/router";
@@ -10,11 +9,12 @@ import {ProjectsTypesService} from "../projects_types/projects-types.service";
   templateUrl: 'project-form.component.html',
   providers: [ProjectsService, ProjectsTypesService]
 })
-export class ProjectFormComponent implements OnInit{
+export class ProjectFormComponent implements OnInit {
   form: FormGroup;
   title: string;
   id: number = null;
   types: any[];
+  typesLoading: boolean = true;
   @ViewChild('btnSubmit') btn;
 
   constructor(private fb: FormBuilder,
@@ -30,7 +30,7 @@ export class ProjectFormComponent implements OnInit{
       title: ['', Validators.compose([
         Validators.required
       ])],
-      date: ['', Validators.compose([
+      projectDate: ['', Validators.compose([
         Validators.required,
       ])],
       type: ['', Validators.compose([
@@ -39,48 +39,79 @@ export class ProjectFormComponent implements OnInit{
       description: [],
     });
 
-    this._activatedRoute.params.subscribe((params: Params) => {
-      const id = params['id'];
-      if(id !== undefined){
-        this.id = id;
-        this.title = 'Modification';
-        // TODO: find project by id and display it in the form
-      }else{
-        this.title = 'Ajout d\'un nouveau projet';
-      }
-    });
+    this.loadTypes();
+    this.loadProject();
 
+  }
+
+  loadTypes(){
     this._typeProjectsService.findAll().subscribe(types => {
-        console.table(types);
-        this.types = types;
+      this.typesLoading = false;
+      console.table(types);
+      this.types = types;
     });
   }
 
-  postProject(): void{
+  loadProject() {
+    this._activatedRoute.params.subscribe((params: Params) => {
+      const id = params['id'];
+      if (id !== undefined) {
+        this.id = id;
+        this.title = 'Modification';
+        this._service.find(this.id).subscribe(project => {
+          // console.log('client of id ' + id + ': ', client);
+          delete project.id;
+          delete project.creationDate;
+          // console.log('client after deleting id ' + this.id + ': ', client);
+          console.log(project);
+          this.form.controls.title.setValue(project.title);
+          this.form.controls.projectDate.setValue(this.formatDate(project.projectDate.date));
+          this.form.controls.type.setValue(project.type.id);
+          this.form.controls.description.setValue(project.description);
+          // this.form.setValue(project);
+          console.log(this.form.controls.projectDate);
+        })
+      } else {
+        this.title = 'Ajout d\'un nouveau projet';
+      }
+    });
+  }
+
+  formatDate(date): string {
+    let d = new Date(date);
+    let day = (d.getDate() < 10) ? '0' + d.getDate() : d.getDate();
+    let m = d.getMonth() + 1;
+    let month = (m < 10) ? '0' + m : m;
+    return day + '/' + month + '/' + d.getFullYear();
+  }
+
+  postProject(): void {
     const project = this.form.value;
     this.btn.nativeElement.innerText = 'Sauvegarde en cours...';
     this.btn.nativeElement.disabled = true;
     if (this.id == null) {
-      // TODO: create new project
-      // this._service.createNewClient(client).subscribe(response => {
-      //   if (response.persisted) {
-      //     this._router.navigate(['/clients']);
-      //     // this.btn.nativeElement.disabled = false;
-      //   }
-      // });
-    }else{
-      console.log('updating..');
+      console.log('creating', project);
+      this._service.create(project).subscribe(response => {
+        if (response.persisted) {
+          this._router.navigate(['/projets']);
+          // this.btn.nativeElement.disabled = false;
+        } else {
+          alert(response.message);
+        }
+      });
+    } else {
       project.id = this.id;
-      // TODO: update project
-      // this._service.updateClient(client).subscribe(response => {
-      //   console.log(response);
-      //   if (response.persisted) {
-      //     this._router.navigate(['/clients']);
-      //     // this.btn.nativeElement.disabled = false;
-      //   }else{
-      //     alert(response.message);
-      //   }
-      // });
+      console.log('updating', project);
+
+      this._service.update(project, this.id).subscribe(response => {
+        console.log(response);
+        if (response.persisted) {
+          this._router.navigate(['/projets']);
+          // this.btn.nativeElement.disabled = false;
+        } else {
+          alert(response.message);
+        }
+      });
     }
   }
 }

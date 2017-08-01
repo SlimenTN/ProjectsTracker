@@ -1,0 +1,17 @@
+<h3>{{title}}</h3>
+<a class="btn btn-success" routerLink="/types-projets">Retourner à la liste des types</a>
+<br>
+<form [formGroup]="form" (ngSubmit)="postType()">
+  <div class="form-group">
+    <label for="title">Titre</label>
+    <input id="title" type="text" class="form-control" formControlName="title">
+    <div *ngIf="form.controls.title.touched && form.controls.title.errors">
+      <div
+        *ngIf="form.controls.title.errors.required"
+        class="alert alert-danger">
+        Le titre est obligatoire.
+      </div>
+    </div>
+  </div>
+  <button #btnSubmit type="submit" class="btn btn-success" [disabled]="!form.valid">Enregistrer</button>
+</form>

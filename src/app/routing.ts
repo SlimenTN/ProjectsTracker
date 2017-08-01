@@ -8,6 +8,8 @@ import { TrackerComponent } from './tracker/tracker.component';
 import { NotFoundComponent } from './not_found/not-found.component';
 import { TrackTypesComponent } from './track_types/tracktypes.component';
 import {ProjectFormComponent} from "./projects/form.component";
+import {ProjectsTypeFormComponent} from "./projects_types/form.component";
+import {InterventionsTypeFormComponent} from "./track_types/form.component";
 
 const routes: Routes = [
   { path: 'clients', component: ClientsComponent },
@@ -17,7 +19,11 @@ const routes: Routes = [
   { path: 'projets/nouveau', component: ProjectFormComponent },
   { path: 'projets/:id/modifier', component: ProjectFormComponent },
   { path: 'types-projets', component: ProjectsTypesComponent },
+  { path: 'types-projets/nouveau', component: ProjectsTypeFormComponent },
+  { path: 'types-projets/:id/modifier', component: ProjectsTypeFormComponent },
   { path: 'types-interventions', component: TrackTypesComponent },
+  { path: 'types-interventions/nouveau', component: InterventionsTypeFormComponent },
+  { path: 'types-interventions/:id/modifier', component: InterventionsTypeFormComponent },
   { path: 'traqueur', component: TrackerComponent },
   { path: '**', component: NotFoundComponent }
 ];

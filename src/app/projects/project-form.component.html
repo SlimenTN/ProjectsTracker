@@ -14,20 +14,20 @@
     </div>
   </div>
   <div class="form-group">
-    <label for="date">Date de lancement</label>
-    <input id="date" type="text" class="form-control" formControlName="date">
-    <div *ngIf="form.controls.date.touched && form.controls.date.errors">
+    <label for="projectDate">Date de lancement</label>
+    <input id="projectDate" type="text" class="form-control" formControlName="projectDate" >
+    <div *ngIf="form.controls.projectDate.touched && form.controls.projectDate.errors">
       <div
-        *ngIf="form.controls.date.errors.required"
+        *ngIf="form.controls.projectDate.errors.required"
         class="alert alert-danger">
         Le date est obligatoire.
       </div>
     </div>
   </div>
   <div class="form-group">
-    <label for="type">Type</label>
-    <select id="type" type="text" class="form-control" formControlName="type">
-      <option *ngFor="let t of types" value="t.id">{{t.title}}</option>
+    <label for="type">Type <span *ngIf="typesLoading">(Chargement des types...)</span></label>
+    <select id="type" type="text" class="form-control" formControlName="type" >
+      <option *ngFor="let t of types" [value]="t.id">{{t.title}}</option>
     </select>
     <div *ngIf="form.controls.type.touched && form.controls.type.errors">
       <div
