@@ -1,0 +1,101 @@
+<h3>{{title}}</h3>
+<a class="btn btn-success" routerLink="/traqueur">Retourner au traqueur</a>
+<br>
+<form [formGroup]="form" (ngSubmit)="postIntervention()">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="interventionDate">Date intervention</label>
+        <input id="interventionDate" type="text" class="form-control" formControlName="interventionDate" >
+        <div *ngIf="form.controls.interventionDate.touched && form.controls.interventionDate.errors">
+          <div
+            *ngIf="form.controls.interventionDate.errors.required"
+            class="alert alert-danger">
+            Le date est obligatoire.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="project">Projet <span *ngIf="projects.length == 0">(Chargement des projets...)</span></label>
+        <select id="project" type="text" class="form-control" formControlName="project" >
+          <option *ngFor="let p of projects" [value]="p.id">{{p.title}}</option>
+        </select>
+        <div *ngIf="form.controls.project.touched && form.controls.project.errors">
+          <div
+            *ngIf="form.controls.project.errors.required"
+            class="alert alert-danger">
+            Le projet est obligatoire.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="clients">Pour quel(s) client(s) <span *ngIf="clients.length == 0">(Chargement des clients...)</span></label>
+    <select id="clients" type="text" class="form-control" formControlName="clients" multiple>
+      <option *ngFor="let c of clients" [value]="c.id">{{c.denomination}}</option>
+    </select>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="numberHours">Nombre des heures de travail</label>
+        <input id="numberHours" type="text" class="form-control" formControlName="numberHours" >
+        <div *ngIf="form.controls.numberHours.touched && form.controls.numberHours.errors">
+          <div
+            *ngIf="form.controls.numberHours.errors.required"
+            class="alert alert-danger">
+            Le nombre des heures est obligatoire.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="type">Type intervention <span *ngIf="types.length == 0">(Chargement des projets...)</span></label>
+        <select id="type" type="text" class="form-control" formControlName="type" >
+          <option *ngFor="let t of types" [value]="t.id">{{t.title}}</option>
+        </select>
+        <div *ngIf="form.controls.type.touched && form.controls.type.errors">
+          <div
+            *ngIf="form.controls.type.errors.required"
+            class="alert alert-danger">
+            Le type de l'intervention est obligatoire.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <input type="checkbox" id="searchIncluded" class="" formControlName="searchIncluded">
+    <label for="searchIncluded">Recherche incluse </label>
+  </div>
+  <div class="form-group">
+    <label for="source">Source</label>
+    <select id="source" class="form-control" formControlName="source" >
+      <option value="1">Reclamation client</option>
+      <option value="2">Test interne</option>
+    </select>
+    <div *ngIf="form.controls.source.touched && form.controls.source.errors">
+      <div
+        *ngIf="form.controls.source.errors.required"
+        class="alert alert-danger">
+        Le source est obligatoire.
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="description">Description</label>
+    <input id="description" type="text" class="form-control" formControlName="description">
+    <div *ngIf="form.controls.description.touched && form.controls.description.errors">
+      <div
+        *ngIf="form.controls.description.errors.required"
+        class="alert alert-danger">
+        La description est obligatoire.
+      </div>
+    </div>
+  </div>
+  <button #btnSubmit type="submit" class="btn btn-success" [disabled]="!form.valid">Enregistrer</button>
+</form>

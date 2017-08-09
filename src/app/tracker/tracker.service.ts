@@ -1,66 +1,39 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
+import * as G from '../app.globals';
+import {ObjectCrud} from "../interfaces/object-crud.interface";
+import {Http} from "@angular/http";
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
 
 @Injectable()
-export class TrackerService {
-    findAll(){
-        return [
-            {
-                project: 'Site web green-duck.tn',
-                day: '01/01/2017',
-                time: 5,
-                typeIntervention: 'Developpement',
-                description: 'Developpement de la page "Acheter"',
-            },
-            {
-                project: 'Site web stram.tn',
-                day: '01/01/2017',
-                time: 3,
-                typeIntervention: 'Réglage bug',
-                description: 'Problème au niveau de la poage "Panier": client ne peut pas sélectionner des produits',
-            },
-            {
-                project: 'Site web green-duck.tn',
-                day: '01/02/2017',
-                time: 7,
-                typeIntervention: 'Developpement',
-                description: 'Developpement de la page "Contact"',
-            },
-            {
-                project: 'Milano Dmcc',
-                day: '01/03/2017',
-                time: 7,
-                typeIntervention: 'Réglage bug',
-                description: 'Problème au niveau de l\'impression: codage du serveur.',
-            },
-            {
-                project: 'Application SAV',
-                day: '01/04/2017',
-                time: 5,
-                typeIntervention: 'Réglage bug',
-                description: 'Problème au niveau de la page "Ordre de diagnostic"',
-            },
-            {
-                project: 'Site web green-duck.tn',
-                day: '01/05/2017',
-                time: 7,
-                typeIntervention: 'Developpement',
-                description: 'Developpement de la page "Louer"',
-            },
-            {
-                project: 'Site web green-duck.tn',
-                day: '01/06/2017',
-                time: 8,
-                typeIntervention: 'Developpement',
-                description: 'Developpement de la page "Requêtte"',
-            },
-            {
-                project: 'Site web green-duck.tn',
-                day: '01/07/2017',
-                time: 8,
-                typeIntervention: 'Developpement',
-                description: 'Developpement de la page "Nos services"',
-            },
-            
-        ];
-    }
+export class TrackerService implements ObjectCrud {
+  private url = G.SERVER_API_URl_PREFIX+'/interventions';
+
+  constructor(private _http: Http) {
+  }
+
+  findAll() {
+    return this._http.get(this.url)
+      .map(res => res.json());
+  }
+
+  create(object) {
+    return this._http.post(this.url + '/new', JSON.stringify(object))
+      .map(res => res.json());
+  }
+
+  update(object, identifier) {
+    return this._http.post(this.url + '/update/' + identifier, JSON.stringify(object))
+      .map(res => res.json());
+  }
+
+  deleteObject(identifier) {
+    return this._http.get(this.url + '/delete/' + identifier)
+      .map(res => res.json());
+  }
+
+  find(identifier) {
+    return this._http.get(this.url + '/find/' + identifier)
+      .map(res => res.json());
+  }
 }

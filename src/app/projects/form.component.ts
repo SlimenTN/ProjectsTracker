@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {ProjectsService} from "./projects.service";
 import {ProjectsTypesService} from "../projects_types/projects-types.service";
+import * as GLOBAL from '../app.globals';
 
 @Component({
   selector: 'app-project-form',
@@ -65,7 +66,7 @@ export class ProjectFormComponent implements OnInit {
           // console.log('client after deleting id ' + this.id + ': ', client);
           console.log(project);
           this.form.controls.title.setValue(project.title);
-          this.form.controls.projectDate.setValue(this.formatDate(project.projectDate.date));
+          this.form.controls.projectDate.setValue(GLOBAL.formatDate(project.projectDate.date));
           this.form.controls.type.setValue(project.type.id);
           this.form.controls.description.setValue(project.description);
           // this.form.setValue(project);
@@ -75,14 +76,6 @@ export class ProjectFormComponent implements OnInit {
         this.title = 'Ajout d\'un nouveau projet';
       }
     });
-  }
-
-  formatDate(date): string {
-    let d = new Date(date);
-    let day = (d.getDate() < 10) ? '0' + d.getDate() : d.getDate();
-    let m = d.getMonth() + 1;
-    let month = (m < 10) ? '0' + m : m;
-    return day + '/' + month + '/' + d.getFullYear();
   }
 
   postProject(): void {

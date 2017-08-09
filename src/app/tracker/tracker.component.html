@@ -1,5 +1,7 @@
 <h3>Traqueur des projets</h3>
-
+<a class="btn btn-success" routerLink="/traqueur/nouveau">Nouvelle intervention</a>
+<hr>
+<div class="alert alert-danger" *ngIf="errorMsg != null" [innerHTML]="errorMsg"></div>
 <table class="table table-bordered table-hover table-responsive">
     <thead>
         <tr>
@@ -12,15 +14,21 @@
         </tr>
     </thead>
     <tbody>
+        <tr *ngIf="isLoading">
+          <td colspan="6">Loading des interventions</td>
+        </tr>
+        <tr *ngIf="!isLoading && list.length == 0">
+          <td colspan="6">Pas d'intervention pour le moment!</td>
+        </tr>
         <tr *ngFor="let i of list">
-            <td>{{i.project}}</td>
-            <td>{{i.day}}</td>
-            <td class="text-center">{{i.time}}</td>
-            <td>{{i.typeIntervention}}</td>
+            <td>{{i.project.title}}</td>
+            <td>{{i.interventionDate.date | date:'dd/MM/y'}}</td>
+            <td class="text-center">{{i.numberHours}}</td>
+            <td>{{i.type.title}}</td>
             <td>{{i.description}}</td>
             <td>
-                <a class="btn btn-success"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                <a class="btn btn-danger" ><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                <a class="btn btn-success" routerLink="/traqueur/{{i.id}}/modifier"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                <a class="btn btn-danger" (click)="deleteIntervention(i)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
             </td>
         </tr>
     </tbody>

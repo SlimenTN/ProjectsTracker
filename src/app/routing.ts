@@ -10,6 +10,7 @@ import { TrackTypesComponent } from './track_types/tracktypes.component';
 import {ProjectFormComponent} from "./projects/form.component";
 import {ProjectsTypeFormComponent} from "./projects_types/form.component";
 import {InterventionsTypeFormComponent} from "./track_types/form.component";
+import {InterventionFormComponent} from "./tracker/form.component";
 
 const routes: Routes = [
   { path: 'clients', component: ClientsComponent },
@@ -25,6 +26,8 @@ const routes: Routes = [
   { path: 'types-interventions/nouveau', component: InterventionsTypeFormComponent },
   { path: 'types-interventions/:id/modifier', component: InterventionsTypeFormComponent },
   { path: 'traqueur', component: TrackerComponent },
+  { path: 'traqueur/nouveau', component: InterventionFormComponent },
+  { path: 'traqueur/:id/modifier', component: InterventionFormComponent },
   { path: '**', component: NotFoundComponent }
 ];
 

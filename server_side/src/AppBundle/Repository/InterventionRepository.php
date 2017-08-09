@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use Doctrine\ORM\NonUniqueResultException;
 
 /**
  * InterventionRepository
@@ -10,4 +11,22 @@ namespace AppBundle\Repository;
  */
 class InterventionRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function customFind($id)
+    {
+        $qb = $this->createQueryBuilder('i');
+        $qb
+            ->select('i, c, p, t')
+            ->leftJoin('i.clients', 'c')
+            ->join('i.project', 'p')
+            ->join('i.type', 't')
+            ->where('i.id = :id')
+            ->setParameter('id', $id)
+        ;
+        $array = $qb->getQuery()->getArrayResult();
+
+        if(count($array) > 1){
+            throw new NonUniqueResultException;
+        }
+        return (count($array) == 0) ? null : $array[0];
+    }
 }

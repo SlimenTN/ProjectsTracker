@@ -2,6 +2,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="intervention")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\InterventionRepository")
  */
-class Intervention
+class Intervention implements \JsonSerializable
 {
     /**
      * @var int
@@ -50,7 +51,7 @@ class Intervention
     private $numberHours;
 
     /**
-     * @var ArrayCollection
+     * @var Collection
      * 
      * @ORM\ManyToMany(targetEntity="Client")
      */
@@ -69,6 +70,24 @@ class Intervention
      * @ORM\ManyToOne(targetEntity="Project")
      */
     private $project;
+
+    /**
+     * Source of the intervention
+     * 1- Client feedback
+     * 2- Internal test
+     * 
+     * @var int
+     * 
+     * @ORM\Column(name="source", type="integer", nullable=true)
+     */
+    private $source;
+
+    /**
+     * @var boolean
+     * 
+     * @ORM\Column(name="search_included", type="boolean")
+     */
+    private $searchIncluded;
 
     /**
      * Get id
@@ -181,7 +200,7 @@ class Intervention
     public function __construct()
     {
         $this->creationDate = new \DateTime("now", new \DateTimeZone('Etc/GMT'));
-        $this->clients = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->clients = new ArrayCollection();
     }
 
     /**
@@ -264,5 +283,58 @@ class Intervention
     public function getProject()
     {
         return $this->project;
+    }
+
+    /**
+     * Set source
+     *
+     * @param integer $source
+     *
+     * @return Intervention
+     */
+    public function setSource($source)
+    {
+        $this->source = $source;
+
+        return $this;
+    }
+
+    /**
+     * Get source
+     *
+     * @return integer
+     */
+    public function getSource()
+    {
+        return $this->source;
+    }
+
+    function jsonSerialize()
+    {
+        return get_object_vars($this);
+    }
+
+    /**
+     * Set searchIncluded
+     *
+     * @param boolean $searchIncluded
+     *
+     * @return Intervention
+     */
+    public function setSearchIncluded($searchIncluded)
+    {
+        $this->searchIncluded = $searchIncluded;
+
+        return $this;
+    }
+
+    /**
+     * Get searchIncluded
+     *
+     * @return boolean
+     */
+    public function getSearchIncluded()
+    {
+        return $this->searchIncluded;
     }
 }
