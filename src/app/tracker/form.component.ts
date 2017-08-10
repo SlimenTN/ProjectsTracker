@@ -7,6 +7,8 @@ import {TrackTypesService} from "../track_types/tracktypes.service";
 import {ClientsService} from "../clients/clients.service";
 import {ProjectsService} from "../projects/projects.service";
 import * as G from '../app.globals';
+import {IMultiSelectOption} from "angular-2-dropdown-multiselect";
+import {DateValidator} from "../common/date.validator";
 
 @Component({
   selector: 'app-intervention-form',
@@ -15,12 +17,16 @@ import * as G from '../app.globals';
 })
 export class InterventionFormComponent implements OnInit{
   title: string;
+  errorMsg: string = null;
   form: FormGroup;
   id: number = null;
   clients: any[] = [];
   projects: any[] = [];
   types: any[] = [];
   @ViewChild('btnSubmit') btn;
+  optionsModel: number[];
+  myOptions: IMultiSelectOption[] = [];
+  dateFormat: string = 'DD-MM-YYYY';
 
   constructor(private fb: FormBuilder,
               private _router: Router,
@@ -31,10 +37,15 @@ export class InterventionFormComponent implements OnInit{
               private _activatedRoute: ActivatedRoute) {
   }
 
+  onChange() {
+    console.log(this.optionsModel);
+  }
+
   ngOnInit(): void {
     this.form = this.fb.group({
       interventionDate: ['', Validators.compose([
-        Validators.required
+        Validators.required,
+        DateValidator.invalidDate,
       ])],
       project: ['', Validators.compose([
         Validators.required,
@@ -109,9 +120,20 @@ export class InterventionFormComponent implements OnInit{
   }
 
   loadClients(){
+
     this.clients = [];
     this._clientsService.findAll().subscribe(clients => {
-      this.clients = clients;
+      this.myOptions = [
+        { id: 1, name: 'Option 1' },
+      ];
+      for (let key in clients) {
+        let obj = clients[key];
+        let o = { id: obj.id, name: obj.denomination};
+
+        this.myOptions.push(o);
+      }
+      this.myOptions.shift();
+      console.table(this.myOptions);
     });
   }
 
@@ -146,7 +168,7 @@ export class InterventionFormComponent implements OnInit{
           this._router.navigate(['/traqueur']);
           // this.btn.nativeElement.disabled = false;
         } else {
-          alert(response.message);
+          this.errorMsg = response.message;
         }
       });
     }

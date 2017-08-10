@@ -3,6 +3,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Components\AngularResponse;
 use AppBundle\Components\EntityCrud;
+use AppBundle\Entity\Client;
 use AppBundle\Entity\Intervention;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -27,7 +28,10 @@ class InterventionController extends Controller implements EntityCrud
         if($clients != null){
             foreach ($clients as $id){
                 $c = $em->getRepository('AppBundle:Client')->find($id);
-                $intervention->addClient($c);
+                if(!$intervention->getClients()->contains($c)){
+                    $intervention->addClient($c);
+                }
+                $this->clearClientCollection($intervention, $clients);
             }
         }
         $intervention->setNumberHours($json['numberHours']);
@@ -35,6 +39,14 @@ class InterventionController extends Controller implements EntityCrud
         $intervention->setSearchIncluded(($json['searchIncluded'] == null) ? false : true);
         $intervention->setSource($json['source']);
         $intervention->setDescription($json['description']);
+    }
+
+    private function clearClientCollection(Intervention $intervention, array $clients){
+        foreach ($intervention->getClients() as $client){
+            if($client instanceof Client){
+                if(!in_array($client->getId(), $clients)) $intervention->getClients()->removeElement($client);
+            }
+        }
     }
 
     /**
@@ -75,8 +87,16 @@ class InterventionController extends Controller implements EntityCrud
 
             return new AngularResponse(array('persisted' => true));
         }catch(\Exception $e){
-            return new AngularResponse(array('persisted' => false, 'message' => $e->getMessage()));
+
+            return new AngularResponse(array('persisted' => false, 'message' => $this->buildExceptionMessage($e)));
         }
+    }
+
+    private function buildExceptionMessage(\Exception $e){
+        $msg = $e->getMessage().'<br>';
+        $msg .= $e->getFile().' => '.$e->getLine().'<br>';
+        $msg .= $e->getTraceAsString();
+        return $msg;
     }
 
     /**

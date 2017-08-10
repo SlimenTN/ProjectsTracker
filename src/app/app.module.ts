@@ -17,6 +17,8 @@ import {ProjectFormComponent} from "./projects/form.component";
 import {ProjectsTypeFormComponent} from "./projects_types/form.component";
 import {InterventionsTypeFormComponent} from "./track_types/form.component";
 import {InterventionFormComponent} from "./tracker/form.component";
+import {MultiselectDropdownModule} from "angular-2-dropdown-multiselect";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -25,10 +27,11 @@ import {InterventionFormComponent} from "./tracker/form.component";
     InterventionsTypeFormComponent, InterventionFormComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule,BrowserAnimationsModule,
     HttpModule,
     FormsModule, ReactiveFormsModule,
     appRoutes,
+    MultiselectDropdownModule
   ],
   providers: [],
   bootstrap: [AppComponent]

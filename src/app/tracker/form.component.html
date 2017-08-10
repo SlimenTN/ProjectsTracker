@@ -1,6 +1,8 @@
 <h3>{{title}}</h3>
 <a class="btn btn-success" routerLink="/traqueur">Retourner au traqueur</a>
 <br>
+<div class="alert alert-danger" *ngIf="errorMsg != null" [innerHTML]="errorMsg"></div>
+<br>
 <form [formGroup]="form" (ngSubmit)="postIntervention()">
   <div class="row">
     <div class="col-md-6">
@@ -12,6 +14,11 @@
             *ngIf="form.controls.interventionDate.errors.required"
             class="alert alert-danger">
             Le date est obligatoire.
+          </div>
+          <div
+            *ngIf="form.controls.interventionDate.errors.invalidDate"
+            class="alert alert-danger">
+            Veuillez saisir une date valide (format: dd/mm/yyyy)
           </div>
         </div>
       </div>
@@ -33,10 +40,11 @@
     </div>
   </div>
   <div class="form-group">
-    <label for="clients">Pour quel(s) client(s) <span *ngIf="clients.length == 0">(Chargement des clients...)</span></label>
-    <select id="clients" type="text" class="form-control" formControlName="clients" multiple>
-      <option *ngFor="let c of clients" [value]="c.id">{{c.denomination}}</option>
-    </select>
+    <label for="clients">Pour quel(s) client(s) <span *ngIf="myOptions.length == 0">(Chargement des clients...)</span></label>
+    <!--<select id="clients" type="text" class="form-control" formControlName="clients" multiple>-->
+      <!--<option *ngFor="let c of clients" [value]="c.id">{{c.denomination}}</option>-->
+    <!--</select>-->
+    <ss-multiselect-dropdown id="clients" [options]="myOptions" formControlName="clients" [(ngModel)]="optionsModel" (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
   </div>
   <div class="row">
     <div class="col-md-6">
