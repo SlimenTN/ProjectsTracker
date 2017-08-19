@@ -20,6 +20,15 @@ class InterventionController extends Controller implements EntityCrud
         return new AngularResponse($interventions);
     }
 
+    /**
+     * @Route("/interventions/find-by-user/{user}", name="intervention_index")
+     */
+    public function findByUserAction($user){
+        $u = $this->getDoctrine()->getManager()->getRepository('AppBundle:User')->find($user);
+        $interventions = $this->getDoctrine()->getManager()->getRepository('AppBundle:Intervention')->findBy(array('user' => $u));
+        return new AngularResponse($interventions);
+    }
+
     private function fillObject(Intervention $intervention, array $json){
         $em = $this->getDoctrine()->getManager();
         $intervention->setInterventionDate(\DateTime::createFromFormat('d/m/Y', $json['interventionDate']));
@@ -39,6 +48,7 @@ class InterventionController extends Controller implements EntityCrud
         $intervention->setSearchIncluded(($json['searchIncluded'] == null) ? false : true);
         $intervention->setSource($json['source']);
         $intervention->setDescription($json['description']);
+        $intervention->setUser($em->getRepository('AppBundle:User')->find($json['user']));
     }
 
     private function clearClientCollection(Intervention $intervention, array $clients){
@@ -57,6 +67,7 @@ class InterventionController extends Controller implements EntityCrud
         $em = $this->getDoctrine()->getManager();
         $json = json_decode($request->getContent(), true);
         $intervention = new Intervention();
+//        return new AngularResponse($json);
         try{
 
             $this->fillObject($intervention, $json);
@@ -66,7 +77,7 @@ class InterventionController extends Controller implements EntityCrud
 
             return new AngularResponse(array('persisted' => true));
         }catch(\Exception $e){
-            return new AngularResponse(array('persisted' => false, 'message' => $e->getMessage()));
+            return new AngularResponse(array('persisted' => false, 'message' => $this->buildExceptionMessage($e)));
         }
     }
 

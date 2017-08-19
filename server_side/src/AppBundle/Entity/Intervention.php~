@@ -2,6 +2,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -50,7 +51,7 @@ class Intervention implements \JsonSerializable
     private $numberHours;
 
     /**
-     * @var ArrayCollection
+     * @var Collection
      * 
      * @ORM\ManyToMany(targetEntity="Client")
      */
@@ -87,6 +88,13 @@ class Intervention implements \JsonSerializable
      * @ORM\Column(name="search_included", type="boolean")
      */
     private $searchIncluded;
+
+    /**
+     * @var User
+     * 
+     * @ORM\ManyToOne(targetEntity="User")
+     */
+    private $user;
 
     /**
      * Get id
@@ -199,7 +207,7 @@ class Intervention implements \JsonSerializable
     public function __construct()
     {
         $this->creationDate = new \DateTime("now", new \DateTimeZone('Etc/GMT'));
-        $this->clients = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->clients = new ArrayCollection();
     }
 
     /**
@@ -311,5 +319,29 @@ class Intervention implements \JsonSerializable
     function jsonSerialize()
     {
         return get_object_vars($this);
+    }
+
+    /**
+     * Set searchIncluded
+     *
+     * @param boolean $searchIncluded
+     *
+     * @return Intervention
+     */
+    public function setSearchIncluded($searchIncluded)
+    {
+        $this->searchIncluded = $searchIncluded;
+
+        return $this;
+    }
+
+    /**
+     * Get searchIncluded
+     *
+     * @return boolean
+     */
+    public function getSearchIncluded()
+    {
+        return $this->searchIncluded;
     }
 }

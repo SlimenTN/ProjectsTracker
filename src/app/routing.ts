@@ -11,8 +11,10 @@ import {ProjectFormComponent} from "./projects/form.component";
 import {ProjectsTypeFormComponent} from "./projects_types/form.component";
 import {InterventionsTypeFormComponent} from "./track_types/form.component";
 import {InterventionFormComponent} from "./tracker/form.component";
+import {LoginComponent} from "./authentication/login.component";
 
 const routes: Routes = [
+  { path: '', component: LoginComponent },
   { path: 'clients', component: ClientsComponent },
   { path: 'clients/nouveau', component: ClientFormComponent },
   { path: 'clients/:id/modifier', component: ClientFormComponent },

@@ -9,6 +9,7 @@ import {ProjectsService} from "../projects/projects.service";
 import * as G from '../app.globals';
 import {IMultiSelectOption} from "angular-2-dropdown-multiselect";
 import {DateValidator} from "../common/date.validator";
+import {AuthenticationService} from "../authentication/authentication.service";
 
 @Component({
   selector: 'app-intervention-form',
@@ -34,7 +35,9 @@ export class InterventionFormComponent implements OnInit{
               private _typesService: TrackTypesService,
               private _clientsService: ClientsService,
               private _projectsService: ProjectsService,
-              private _activatedRoute: ActivatedRoute) {
+              private _activatedRoute: ActivatedRoute,
+              private _authService: AuthenticationService,
+  ) {
   }
 
   onChange() {
@@ -146,11 +149,14 @@ export class InterventionFormComponent implements OnInit{
 
   postIntervention(){
     const intervention = this.form.value;
+    intervention.user = this._authService.getUser().id;
+    if(intervention.clients === undefined) intervention.clients = null;
     this.btn.nativeElement.innerText = 'Sauvegarde en cours...';
     this.btn.nativeElement.disabled = true;
     if (this.id == null) {
-      console.log('creating', intervention);
+      console.log('creating', JSON.stringify(intervention));
       this._service.create(intervention).subscribe(response => {
+        console.log('response', response);
         if (response.persisted) {
           this._router.navigate(['/traqueur']);
           // this.btn.nativeElement.disabled = false;

@@ -1,10 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { TrackerService } from './tracker.service';
+import {animate, state, style, transition, trigger} from "@angular/animations";
 
 @Component({
     selector: 'tracker',
     templateUrl: './tracker.component.html',
-    providers: [TrackerService]
+    providers: [TrackerService],
+    animations: [
+      trigger('fade', [
+        state('void', style({opacity:0})),
+        transition(':enter, :leave', [
+          animate(1000)
+        ])
+      ])
+    ]
 })
 
 export class TrackerComponent implements OnInit {
@@ -33,8 +42,10 @@ export class TrackerComponent implements OnInit {
         .subscribe(response => {
           console.log(response);
           if (response.deleted) {
-            this.list = [];
-            this.loadInterventions();
+            // this.list = [];
+            let tr = document.getElementById('tr_'+intervention.id);
+            tr.parentNode.removeChild(tr);
+            // this.loadInterventions();
           } else {
             this.errorMsg = '<strong>Erreur lors de supression:</strong><br>' + response.message;
           }

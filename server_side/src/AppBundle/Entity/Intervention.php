@@ -90,6 +90,13 @@ class Intervention implements \JsonSerializable
     private $searchIncluded;
 
     /**
+     * @var User
+     * 
+     * @ORM\ManyToOne(targetEntity="User")
+     */
+    private $user;
+
+    /**
      * Get id
      *
      * @return int
@@ -336,5 +343,29 @@ class Intervention implements \JsonSerializable
     public function getSearchIncluded()
     {
         return $this->searchIncluded;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Intervention
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

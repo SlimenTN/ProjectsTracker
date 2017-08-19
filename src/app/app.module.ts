@@ -19,12 +19,15 @@ import {InterventionsTypeFormComponent} from "./track_types/form.component";
 import {InterventionFormComponent} from "./tracker/form.component";
 import {MultiselectDropdownModule} from "angular-2-dropdown-multiselect";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {LoginComponent} from "./authentication/login.component";
+import {AuthenticationService} from "./authentication/authentication.service";
+import {ContainerComponent} from "./container/container.component";
 
 @NgModule({
   declarations: [
     AppComponent, ClientsComponent, NotFoundComponent, ProjectsComponent, ProjectsTypesComponent,
     TrackerComponent, TrackTypesComponent, ClientFormComponent, ProjectFormComponent, ProjectsTypeFormComponent,
-    InterventionsTypeFormComponent, InterventionFormComponent
+    InterventionsTypeFormComponent, InterventionFormComponent, LoginComponent, ContainerComponent
   ],
   imports: [
     BrowserModule,BrowserAnimationsModule,
@@ -33,7 +36,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     appRoutes,
     MultiselectDropdownModule
   ],
-  providers: [],
+  providers: [AuthenticationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

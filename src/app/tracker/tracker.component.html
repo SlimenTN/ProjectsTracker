@@ -20,7 +20,7 @@
         <tr *ngIf="!isLoading && list.length == 0">
           <td colspan="6">Pas d'intervention pour le moment!</td>
         </tr>
-        <tr *ngFor="let i of list">
+        <tr *ngFor="let i of list" id="tr_{{i.id}}" @fade>
             <td>{{i.project.title}}</td>
             <td>{{i.interventionDate.date | date:'dd/MM/y'}}</td>
             <td class="text-center">{{i.numberHours}}</td>

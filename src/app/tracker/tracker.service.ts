@@ -4,16 +4,18 @@ import {ObjectCrud} from "../interfaces/object-crud.interface";
 import {Http} from "@angular/http";
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import {AuthenticationService} from "../authentication/authentication.service";
 
 @Injectable()
 export class TrackerService implements ObjectCrud {
   private url = G.SERVER_API_URl_PREFIX+'/interventions';
 
-  constructor(private _http: Http) {
+  constructor(private _http: Http, private _authService: AuthenticationService) {
   }
 
   findAll() {
-    return this._http.get(this.url)
+
+    return this._http.get(this.url + '/find-by-user/' + this._authService.getUser().id)
       .map(res => res.json());
   }
 
